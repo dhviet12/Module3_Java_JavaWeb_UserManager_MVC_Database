@@ -33,10 +33,18 @@ public class UserServlet extends HttpServlet {
             case "create":
                 showFormCreate(req,resp);
                 break;
+            case "search":
+                showSearchCountryForm(req,resp);
+                break;
             default:
                 showAllUser(req,resp);
                 break;
         }
+    }
+
+    private void showSearchCountryForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("search.jsp");
+        requestDispatcher.forward(req,resp);
     }
 
     private void showFormCreate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -81,7 +89,20 @@ public class UserServlet extends HttpServlet {
             case "create":
                 createUser(req,resp);
                 break;
+            case "search":
+                searchByCountry(req,resp);
+                break;
+
         }
+    }
+
+    private void searchByCountry(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String country = req.getParameter("country");
+        List<User> result = userService.findByCountry(country);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("search.jsp");
+        req.setAttribute("list",result);
+        requestDispatcher.forward(req,resp);
+
     }
 
     private void createUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

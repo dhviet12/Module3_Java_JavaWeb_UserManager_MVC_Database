@@ -109,7 +109,21 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public User findByCountry(String country) {
-        return null;
+    public List<User> findByCountry(String country) {
+        Connection connection = getConnection();
+        List<User> userCountry = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from users where country= ?;");
+            preparedStatement.setString(1,country);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
+                userCountry.add(new User(name,email,country));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return userCountry;
     }
 }
