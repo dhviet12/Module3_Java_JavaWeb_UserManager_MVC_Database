@@ -133,4 +133,39 @@ public class UserService implements IUserService{
         }
         return userCountry;
     }
+
+    @Override
+    public void addUserTransaction(User user, int[] permision) {
+        Connection connection = getConnection();
+        try {
+            connection.setAutoCommit(false);
+            // insert user
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "(name, email, country) VALUES " + " (?, ?, ?);",
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getCountry());
+            int rowAffected = preparedStatement.executeUpdate();
+            // get user id
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            int userId = 0;
+            if(resultSet.next()){
+                resultSet.getInt(1);
+            }
+            // assign permission to user
+            if(rowAffected ==1){
+                PreparedStatement preparedStatement1 =connection.prepareStatement("INSERT INTO user_permission(user_id,permission_id) "+ "VALUES(?,?)");
+                for (int permissionId : permision){
+                    preparedStatement1.setInt(1,userId);
+                    preparedStatement1.setInt(2,permissionId);
+                    preparedStatement1.executeUpdate();
+                }
+                connection.commit();
+            } else {
+                connection.rollback();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

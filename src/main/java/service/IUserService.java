@@ -8,6 +8,7 @@ public interface IUserService extends IService<User>{
      boolean deleteUser(int id);
      void createUser(User user);
      List<User> findByCountry(String country);
+     void addUserTransaction(User user, int[] permision);
 
 
 }

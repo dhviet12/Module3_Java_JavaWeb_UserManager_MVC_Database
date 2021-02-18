@@ -36,10 +36,19 @@ public class UserServlet extends HttpServlet {
             case "search":
                 showSearchCountryForm(req, resp);
                 break;
+            case "permission":
+                addUserPermission(req, resp);
+                break;
             default:
                 showAllUser(req, resp);
                 break;
         }
+    }
+
+    private void addUserPermission(HttpServletRequest req, HttpServletResponse resp) {
+        User user = new User("kien", "kienhoang@gmail.com", "vn");
+        int[] permision = {1, 2, 4};
+        userService.addUserTransaction(user, permision);
     }
 
     private void showSearchCountryForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
