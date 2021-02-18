@@ -13,6 +13,7 @@
 </head>
 <body>
 <h1>All User list</h1>
+
 <table border="1", width="400", cellspacing="2", cellpadding="2">
     <tr>
         <td>Name</td>

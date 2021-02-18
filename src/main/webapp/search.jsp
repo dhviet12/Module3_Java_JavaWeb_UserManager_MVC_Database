@@ -12,9 +12,13 @@
     <title>Search form</title>
 </head>
 <body>
-<h2>Enter country of User you want to find</h2>
+<h3>
+    <a href="/users">Back to All user List</a>
+</h3>
+
+<h1>Enter country of User you want to find</h1>
 <form method="post">
-    <input type="text" name="country" id="country">
+    <input type="text" name="country" id="country" placeholder="enter country ">
     <input type="submit" value="search">
 </form>
 

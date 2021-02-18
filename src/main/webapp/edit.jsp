@@ -11,8 +11,8 @@
     <title>Edit page</title>
 </head>
 <body>
-<h1>Edit User information</h1>
 <a href="/users"><h2>Back to All User list</h2></a>
+<h1>Edit User information</h1>
 <form method="post">
     <input type="text" name="name" value="${user.getName()}">
     <input type="text" name="email" value="${user.getEmail()}">

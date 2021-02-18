@@ -97,12 +97,19 @@ public class UserService implements IUserService{
     public void createUser(User user) {
         Connection connection = getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (name, email, country) VALUES " + " (?, ?, ?);");
-            preparedStatement.setString(1,user.getName());
-            preparedStatement.setString(2,user.getEmail());
-            preparedStatement.setString(3,user.getCountry());
-            System.out.println(preparedStatement);
-            preparedStatement.executeUpdate();
+            // cach 1:
+//            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users" + "  (name, email, country) VALUES " + " (?, ?, ?);");
+//            preparedStatement.setString(1,user.getName());
+//            preparedStatement.setString(2,user.getEmail());
+//            preparedStatement.setString(3,user.getCountry());
+//            preparedStatement.executeUpdate();
+
+            // cach 2:
+            CallableStatement callableStatement = connection.prepareCall("{call add_user(?,?,?)}");
+            callableStatement.setString(1, user.getName());
+            callableStatement.setString(2, user.getEmail());
+            callableStatement.setString(3, user.getCountry());
+            callableStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
